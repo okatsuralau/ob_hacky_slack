@@ -49,7 +49,7 @@ APP="/usr/local/bin/slack.sh"
 BIN="/usr/bin/slack"
 
 # Set the symlink for the app if it does not exist
-test -L "${APP}"; echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}
+if test -L "${APP}"; then echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}; fi
 
 # Set defaults
 if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-':good:'} && COLOR=${COLOR:-'#36a64f'}; fi
@@ -187,11 +187,11 @@ else
    if test -z "${USERNAME}"; then echo "INFO: A USERNAME (-u) was not specified for this POST to the Slack API. Setting a default username..."; USERNAME="${IP}"; fi
 
    # Set defaults
-   test -z "${TEXT}"; echo "WARNING: You do not have any TEXT (-t) specified in the message."; TEXT="${TEXT:-'This message is missing TEXT'}"
-   test -z "${TITLE}"; echo "WARNING: You do not have a TITLE (-T) specified for the message."; TITLE=${TITLE:-'This message is missing a TITLE'}
-   test -z "${PRETEXT}"; echo "WARNING: You do not have a PRETEXT (-p) specified for the message."; PRETEXT=${PRETEXT:-'This message is missing a PRETEXT'}
-   test -z "${CHANNEL}"; echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; CHANNEL=${CHANNEL:-'general'}
-   test -z "${PRIORITY}"; echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}
+   if test -z "${TEXT}"; then echo "WARNING: You do not have any TEXT (-t) specified in the message."; else TEXT="${TEXT:-'This message is missing TEXT'}"; fi
+   if test -z "${TITLE}"; then echo "WARNING: You do not have a TITLE (-T) specified for the message."; else TITLE=${TITLE:-'This message is missing a TITLE'}; fi
+   if test -z "${PRETEXT}"; then echo "WARNING: You do not have a PRETEXT (-p) specified for the message."; else PRETEXT=${PRETEXT:-'This message is missing a PRETEXT'}; fi
+   if test -z "${CHANNEL}"; then echo "WARNING: A CHANNEL (-c) was not set. Using the default CHANNEL..."; else CHANNEL=${CHANNEL:-'general'}; fi
+   if test -z "${PRIORITY}"; then echo "INFO: STATUS (-s) was not set. Setting a default STATUS to INFO..."; else PRIORITY=${PRIORITY:-'INFO'} && ICON=${ICON:-':info:'} && COLOR=${COLOR:-'#439FE0'}; fi
 
 fi
 
