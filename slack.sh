@@ -49,7 +49,7 @@ APP="/usr/local/bin/slack.sh"
 BIN="/usr/bin/slack"
 
 # Set the symlink for the app if it does not exist
-if test -L "${APP}"; then echo "WARNING: You do not have ${APP} symlinked."; ln ${APP} ${BIN} && chmod +x ${BIN}; fi
+if test -L "${APP}"; then echo "WARNING: You do not have ${APP} symlinked."; ln -sf ${APP} ${BIN} && chmod +x ${BIN}; fi
 
 # Set defaults
 if test "${PRIORITY}" = "OK"; then echo "INFO: STATUS (-s) was set to OK..."; ICON=${ICON:-':good:'} && COLOR=${COLOR:-'#36a64f'}; fi
