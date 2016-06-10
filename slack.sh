@@ -1,43 +1,6 @@
 #!/usr/bin/env bash
 
 # ----------
-# Connection
-# ----------
-
-# Default WEBHOOK to post messages
-if [[ -n ${WEBHOOK} ]]; then
-
-   echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
-
-elif [[ -n ${SLACK_WEBHOOK} ]]; then
-
-   echo "INFO: The Slack API TOKEN was set as a system variable"
-   TOKEN=${SLACK_WEBHOOK}
-
-else
-
-   echo "INFO: Using default Slack API endpoint to POST messages..."
-   WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
-
-fi
-
-echo "${SLACK_TOKEN}"
-# Default TOKEN to post messages
-if [[ -n ${TOKEN} ]]; then
-
-   echo "INFO: The Slack API TOKEN was passed via the command line (-k)"
-
-elif [[ -n ${SLACK_TOKEN} ]]; then
-
-   echo "INFO: The Slack API TOKEN was set as a system variable"
-   TOKEN=${SLACK_TOKEN}
-
-else
-   echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one."
-   exit 1
-fi
-
-# ----------
 # Environment
 # ----------
 
@@ -146,6 +109,43 @@ while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w" opt; do
     esac
     done
 
+fi
+
+# ----------
+# Connection
+# ----------
+
+# Default WEBHOOK to post messages
+if [[ -n ${WEBHOOK} ]]; then
+
+   echo "INFO: The Slack API WEBHOOK was passed via the command line (-w)"
+
+elif [[ -n ${SLACK_WEBHOOK} ]]; then
+
+   echo "INFO: The Slack API TOKEN was set as a system variable"
+   TOKEN=${SLACK_WEBHOOK}
+
+else
+
+   echo "INFO: Using default Slack API endpoint to POST messages..."
+   WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
+
+fi
+
+echo "${SLACK_TOKEN}"
+# Default TOKEN to post messages
+if [[ -n ${TOKEN} ]]; then
+
+   echo "INFO: The Slack API TOKEN was passed via the command line (-k)"
+
+elif [[ -n ${SLACK_TOKEN} ]]; then
+
+   echo "INFO: The Slack API TOKEN was set as a system variable"
+   TOKEN=${SLACK_TOKEN}
+
+else
+   echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one."
+   exit 1
 fi
 
 # ----------
