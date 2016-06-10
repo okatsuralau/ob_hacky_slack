@@ -64,7 +64,6 @@ function GET_HELP()
     echo "-t, Text                      This is the main text in a message attachment, and can contain standard message markup."
     echo "-T, Title                     The title is displayed as larger, bold text near the top of a message attachmen."
     echo "-L, Title Link                A valid URL in the will ensure the title text will be hyperlinked."
-    echo "-k, Token                     Authenticates the POST to Slack."
     echo "-u, Username                  User that posts the message."
     echo "-w, Webhook                   The Slack API service endpoint to POST messages."
 
@@ -79,7 +78,7 @@ exit 1
 
 else
 
-while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w:" opt; do
+while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:u:w:" opt; do
 
   case ${opt} in
     a) ATTACHMENT="true" ;;
@@ -103,7 +102,6 @@ while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w:" opt; do
     t) TEXT="${OPTARG}" ;;
     T) TITLE="${OPTARG}" ;;
     L) TITLELINK="${OPTARG}" ;;
-    k) TOKEN="${OPTARG}" ;;
     u) USERNAME="${OPTARG}" ;;
     w) WEBHOOK="${OPTARG}" ;;
     esac
@@ -114,7 +112,6 @@ fi
 # ----------
 # Connection
 # ----------
-
 # Default WEBHOOK to post messages
 if [[ -n ${WEBHOOK} ]]; then
 
@@ -122,30 +119,12 @@ if [[ -n ${WEBHOOK} ]]; then
 
 elif [[ -n ${SLACK_WEBHOOK} ]]; then
 
-   echo "INFO: The Slack API TOKEN was set as a system variable"
-   TOKEN=${SLACK_WEBHOOK}
+   echo "INFO: The Slack API WEBHOOK was set as a system variable"
+   WEBHOOK=${SLACK_WEBHOOK}
 
 else
-
-   echo "INFO: Using default Slack API endpoint to POST messages..."
-   WEBHOOK=${WEBHOOK-'https://hooks.slack.com/services/'}
-
-fi
-
-echo "${SLACK_TOKEN}"
-# Default TOKEN to post messages
-if [[ -n ${TOKEN} ]]; then
-
-   echo "INFO: The Slack API TOKEN was passed via the command line (-k)"
-
-elif [[ -n ${SLACK_TOKEN} ]]; then
-
-   echo "INFO: The Slack API TOKEN was set as a system variable"
-   TOKEN=${SLACK_TOKEN}
-
-else
-   echo "ERROR: No Slack API TOKEN was found. Can not proceed with posting messages to the API without one."
-   exit 1
+    echo "ERROR: No Slack API WEBHOOK was found. Can not proceed with posting messages to the API without one."
+    exit 1
 fi
 
 # ----------
@@ -243,7 +222,7 @@ PAYLOAD="payload={ \
 fi
 
 # Send the payload to the Slack API
-POST=$(curl -s -S -X POST --data-urlencode "${PAYLOAD}" "${WEBHOOK}${TOKEN}");
+POST=$(curl -s -S -X POST --data-urlencode "${PAYLOAD}" "${WEBHOOK}");
 
 # Check if the message posted to the Slack API. A successful POST should return "ok". Anything other than "ok" indicates an issue
 test "${POST}" != ok && echo "ERROR: The POST to the Slack API failed" && return 1
