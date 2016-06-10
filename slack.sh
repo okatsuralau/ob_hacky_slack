@@ -79,7 +79,7 @@ exit 1
 
 else
 
-while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w" opt; do
+while getopts "aA:b:B:c:Chi:I:m:N:p:s:t:T:L:k:u:w:" opt; do
 
   case ${opt} in
     a) ATTACHMENT="true" ;;
