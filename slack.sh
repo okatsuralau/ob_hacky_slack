@@ -11,6 +11,11 @@ IPCONFIG="/tmp/ip.txt"
 APP="/usr/local/bin/slack.sh"
 BIN="/usr/bin/slack"
 
+# load environment variables (when is called from another script)
+if [[ -f /etc/profile.d/slack.sh ]] ; then
+    source /etc/profile.d/slack.sh
+fi
+
 # Set the symlink for the app if it does not exist
 if test -L "${APP}"; then echo "WARNING: You do not have ${APP} symlinked."; ln -sf ${APP} ${BIN} && chmod +x ${BIN}; fi
 
