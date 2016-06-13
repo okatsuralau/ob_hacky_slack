@@ -177,6 +177,10 @@ else
 
 fi
 
+# Removes the : passed with the name of the icon
+# (set this by default in the payload)
+ICON=$( echo ${ICON} | sed 's|:||g' )
+
 # ----------
 # Send Message
 # ----------
