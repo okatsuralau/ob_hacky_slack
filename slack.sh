@@ -144,8 +144,6 @@ if [[ -n "${MODE}" ]]; then
 
    test -d "${CONFIG}" && echo "INFO: The ${CONFIG} direcotry exists" || echo "WARNING: The ${CONFIG} direcotry does not exist. Creating..."; mkdir -p ${CONFIG}
 
-   curl -o "${CONFIG}/${MODE}" -z "${CONFIG}/${MODE}" "https://raw.githubusercontent.com/openbridge/ob_slack/master/etc/slack.d/${MODE}" --verbose
-
    if [[ -z "${MODE}" ]]; then
 
       echo "INFO: No Monit variables are present"
